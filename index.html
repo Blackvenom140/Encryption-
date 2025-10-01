@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>All Rounder News — Evergreen Journalism from Haryana</title>
+	<meta name="description" content="In-depth, original reporting on Haryana and global issues that matter — water, caste, AI, immortality, and invisible infrastructure." />
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+    :root {
+      --primary: #4361ee;
+      --text: #1a1a2e;
+      --bg: #f9fbfd;
+      --card-bg: #ffffff;
+      --border: #eaeff5;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
+      font-size: 18px;
+    }
+
+    @media (min-width: 900px) {
+      body { font-size: 20px; }
+    }
+
+    #reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: var(--primary);
+      z-index: 9999;
+      transition: width 0.1s ease-out;
+    }
+
+    .article-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+
+    .hero {
+      position: relative;
+      margin-bottom: 40px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .hero img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    .hero-caption {
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.85);
+      font-size: 0.9rem;
+      color: #555;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta {
+      font-size: 0.95rem;
+      color: #555;
+      margin: 8px 0;
+    }
+
+    .meta strong { color: var(--text); }
+
+    .article-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 20px 0 12px;
+    }
+
+    .article-subtitle {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #444;
+      margin-bottom: 24px;
+    }
+
+    .byline { font-weight: 600; margin-bottom: 8px; }
+
+    .toc-container {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 30px 0;
+      box-shadow: var(--shadow);
+    }
+
+    .toc-title {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc-list li { margin: 8px 0; }
+
+    .toc-list a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .toc-list a:hover { text-decoration: underline; }
+
+    @media (min-width: 900px) {
+      .toc-container {
+        position: sticky;
+        top: 20px;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+    }
+
+    .article-body {
+      font-size: 1.05rem;
+    }
+
+    .article-body h2 {
+      font-size: 1.8rem;
+      margin: 50px 0 24px;
+      font-weight: 700;
+      scroll-margin-top: 80px;
+    }
+
+    .article-body h3 {
+      font-size: 1.4rem;
+      margin: 40px 0 20px;
+      font-weight: 600;
+      scroll-margin-top: 80px;
+    }
+
+    .article-body p {
+      margin: 22px 0;
+      text-align: justify;
+    }
+
+    .pull-quote {
+      font-size: 1.7rem;
+      font-style: italic;
+      text-align: center;
+      margin: 50px 0;
+      padding: 0 20px;
+      color: #2c3e50;
+      border-left: 3px solid var(--primary);
+      padding-left: 20px;
+    }
+
+    .inline-image {
+      margin: 40px 0;
+      text-align: center;
+    }
+
+    .inline-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .image-caption {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    .sources {
+      margin: 60px 0;
+      padding: 30px;
+      background: #f0f5ff;
+      border-radius: 12px;
+      border: 1px solid #dde5f5;
+    }
+
+    .sources-summary {
+      font-weight: 600;
+      margin-bottom: 14px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sources-list {
+      margin-top: 18px;
+      display: none;
+    }
+
+    .sources-list.show {
+      display: block;
+    }
+
+    .author-bio {
+      display: flex;
+      gap: 20px;
+      margin: 60px 0;
+      padding: 30px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .author-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .author-info h3 {
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+    }
+
+    .author-info p {
+      margin: 0 0 14px;
+    }
+
+    .chat-small {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 18px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 60px auto 100px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    }
+
+    @media (min-width: 900px) {
+      .chat-small {
+        width: 42px;
+        height: 42px;
+        font-size: 14px;
+        border-radius: 21px;
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Section Divider */
+    .section-divider {
+      margin: 80px 0;
+      text-align: center;
+      color: #718096;
+      font-weight: 600;
+    }
+</style>
+  </head>
+  <body>
+
+	<div id="reading-progress"></div>
+
+	<article class="article-container" role="article">
+	  <!-- MAIN ARTICLE: HARYANA WATER -->
+	  <header>
+		<h1 class="article-title fade-in">The Deep Crisis Beneath Our Feet: Haryana’s Vanishing Water Table</h1>
+		<p class="article-subtitle fade-in">How decades of policy, climate, and inequality are pushing India’s breadbasket toward “Day Zero”</p>
+		<p class="byline fade-in">By <strong>Aditi Mital</strong> • Rohtak, Haryana</p>
+		<p class="meta fade-in">Published on: <span class="published-date"></span> • <span class="reading-time">8 min read</span></p>
+	  </header>
+
+	  <div class="hero fade-in">
+		<img
+		  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='500' viewBox='0 0 1000 500'%3E%3Crect width='1000' height='500' fill='%23e0e7ff'/%3E%3Ctext x='500' y='270' font-size='24' text-anchor='middle' fill='%236b7280'%3ELoading Haryana Water Story...%3C/text%3E%3C/svg%3E"
+		  data-src="https://source.unsplash.com/1000x500/?haryana,farmer,water"
+		  alt="A farmer in Karnal, Haryana, stands beside a dry well."
+		  loading="lazy"
+		  class="lazy"
+		/>
+		<div class="hero-caption">A dried-up well in Karnal district. Groundwater levels have dropped over 2 meters per year. Credit: All Rounder Field Archive / 2025</div>
+	  </div>
+
+	  <nav class="toc-container fade-in" aria-label="Table of contents">
+		<h2 class="toc-title">Contents</h2>
+		<ol class="toc-list" id="toc-list"></ol>
+	  </nav>
+
+	  <div class="article-body fade-in" id="article-body">
+		<p><strong>ROHTAK, HARYANA</strong> — In the village of Nissing, 45 kilometers from the state capital, 68-year-old farmer Balbir Singh hasn’t seen his tube well yield water before 3 a.m. in over five years. “We used to irrigate three crops,” he says, wiping sweat under a relentless April sun. “Now we pray for one.”</p>
+
+		<p>Haryana, once the crown jewel of India’s Green Revolution, is running out of water. With over 76% of its blocks classified as “over-exploited” by the Central Ground Water Board, the state faces a slow-motion emergency that threatens food security, rural livelihoods, and intergenerational equity.</p>
+
+		<h2 id="the-green-revolution-legacy">The Green Revolution Legacy</h2>
+		<p>Launched in the 1960s, the Green Revolution transformed Haryana into a wheat and rice powerhouse. But it came with a hidden cost: water-intensive crops, subsidized electricity for pumps, and no regulation on extraction.</p>
+
+		<div class="pull-quote">“We fed the nation, but we drank our future dry.”</div>
+
+		<h2 id="data-the-numbers-behind-the-crisis">Data: The Numbers Behind the Crisis</h2>
+		<p>According to CGWB 2024 data:</p>
+		<ul>
+		  <li>Average annual groundwater decline: <strong>1.8 meters</strong></li>
+		  <li>Blocks in “critical” or “over-exploited” category: <strong>89 out of 119</strong></li>
+		  <li>Rice cultivation occupies <strong>~40% of cropped area</strong></li>
+		</ul>
+
+		<div class="inline-image">
+		  <img
+			src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='400' viewBox='0 0 700 400'%3E%3Crect width='700' height='400' fill='%23f0f4f9'/%3E%3C/svg%3E"
+			data-src="https://source.unsplash.com/700x400/?graph,water,india"
+			alt="Chart showing declining groundwater levels in Haryana"
+			loading="lazy"
+			class="lazy"
+		  />
+		  <div class="image-caption">Groundwater depth in key Haryana districts (2000–2025). Source: CGWB</div>
+		</div>
+
+		<h2 id="local-impact-haryana-on-the-brink">Local Impact: Haryana on the Brink</h2>
+		<p>In Mewat and Rewari, women walk up to 3 kilometers daily for drinking water. In Sirsa, schools report absenteeism during summer as children help families fetch water.</p>
+
+		<h2 id="policy-failures-and-pathways-forward">Policy Failures and Pathways Forward</h2>
+		<p>Despite schemes like “Jal Shakti Abhiyan,” enforcement remains weak. Experts advocate for:</p>
+		<ul>
+		  <li>Shifting from rice to millets and pulses</li>
+		  <li>Real-time groundwater monitoring</li>
+		  <li>Community-led water governance</li>
+		</ul>
+
+		<h2 id="why-it-matters">Why It Matters</h2>
+		<p>Haryana’s crisis is a warning for India and the world. If the breadbasket fails, national food security unravels. But if it succeeds in sustainable transition, it becomes a global model.</p>
+	  </div>
+
+	  <section class="sources fade-in">
+		<div class="sources-summary" id="sources-toggle">
+		  <span>Sources & Research Notes</span>
+		  <span>▼</span>
+		</div>
+		<ul class="sources-list" id="sources-list">
+		  <li>Central Ground Water Board (CGWB). (2024). <em>Dynamic Ground Water Resources of Haryana</em>.</li>
+		  <li>World Bank. (2023). <em>Water Scarcity in North India</em>.</li>
+		  <li>Interview: Dr. Ramesh Kumar, Hydrologist, National Institute of Hydrology, Roorkee (June 2025).</li>
+		  <li>Field reporting in Karnal, Rohtak, and Sirsa districts (March–April 2025).</li>
+		</ul>
+	  </section>
+
+	  <section class="author-bio fade-in">
+		<img src="https://i.ibb.co/Tq23g2Xz/21-Aditi-Mehta.jpg" alt="Aditi Mital" class="author-avatar" />
+		<div class="author-info">
+		  <h3>Aditi Mital</h3>
+		  <p>Aditi is All Rounder’s Senior Correspondent for Haryana Affairs. She specializes in rural economy, water policy, and social equity across North India.</p>
+		  <p><a href="mailto:aditi@allrounder.news" style="color:#4361ee; text-decoration:underline;">Contact</a></p>
+		</div>
+	  </section>
+
+	  <!-- EVERGREEN TOPIC 1: AI & HUMANITY -->
+	  <div class="section-divider">— Next Evergreen Feature —</div>
+
+	  <h2 id="ai-humanity">1. The Deep Future of Artificial Intelligence and Humanity</h2>
+	  <p>This subject is massive, philosophical, and constantly evolving, making detailed reports on it incredibly durable. Instead of focusing on the latest AI product launch, we explore existential questions that will remain relevant for decades.</p>
+
+	  <h3 id="consciousness">The Nature of Consciousness</h3>
+	  <p>Can a machine ever be truly sentient? Philosophers like David Chalmers argue that subjective experience — “qualia” — cannot emerge from computation alone. Yet in labs from Bengaluru to Berkeley, researchers train neural nets that mimic empathy, creativity, and even grief. In Haryana, AI-powered counseling bots are being tested in rural schools — raising urgent questions: When a child confides in an algorithm, who is responsible for their emotional safety?</p>
+
+	  <h3 id="economic-transformation">The Economic Transformation</h3>
+	  <p>By 2040, up to 40% of current jobs in India could be automated. But the real disruption isn’t job loss — it’s the collapse of the link between labor and dignity. In Sonipat’s industrial belt, factory owners already use AI to optimize shifts, cutting human oversight. What replaces the social fabric woven through workplace relationships? Universal Basic Income? Or a new caste of “algorithm managers”?</p>
+
+	  <div class="pull-quote">“We are not replacing workers. We are replacing the idea that humans must work to survive.”</div>
+
+	  <h3 id="ethics-autonomy">Ethics of Autonomy</h3>
+	  <p>In Punjab’s border hospitals, AI triages emergency cases. In Delhi’s courts, algorithms assess bail risk. These systems inherit the biases of their training data — often amplifying caste and class disparities. A 2024 study found that AI in Haryana’s ration distribution system disproportionately flagged Dalit households for “fraud.” When life-altering decisions are outsourced to code, who audits the auditor?</p>
+
+	  <h3>Why It’s Timeless</h3>
+	  <p>These are questions about what it means to be human in the digital age. The pace of technology changes, but the core ethical and philosophical dilemmas remain.</p>
+
+	  <!-- EVERGREEN TOPIC 2: WATER SECURITY -->
+	  <div class="section-divider">— Next Evergreen Feature —</div>
+
+	  <h2 id="global-water-security">2. Structural Crisis: Global Water Security</h2>
+	  <p>Detailed, long-form journalism on natural resources has lasting impact because the crisis is slow-moving and structural. We zoom in on specific regions to tell universal stories.</p>
+
+	  <h3 id="day-zero-haryana">“Day Zero” in Haryana</h3>
+	  <p>While Cape Town made headlines, Haryana’s “Day Zero” is already here — silently. In 2023, 12 villages in Mahendragarh went 112 days without piped water. Unlike Chennai, where protests erupted, Haryana’s crisis is absorbed by migration: young men leave for Gurugram, leaving women and elders to manage scarcity. This quiet exodus masks a deeper truth: water stress is reshaping Haryana’s demography.</p>
+
+	  <h3 id="politics-of-rivers">The Politics of Rivers</h3>
+	  <p>The Yamuna, once Haryana’s lifeline, now carries more sewage than freshwater. Downstream, Delhi’s demands override upstream needs. Meanwhile, the Indus Waters Treaty — signed in 1960 — is fraying under climate stress. A new dam in Himachal could reduce flow to Haryana’s Sirsa by 30%. Water is no longer just a resource; it’s a weapon of federal negotiation.</p>
+
+	  <h3>Why It’s Timeless</h3>
+	  <p>Water is fundamental. A report on a past drought serves as a chilling, essential warning for every future one.</p>
+
+	  <!-- EVERGREEN TOPIC 3: INEQUALITY & CASTE -->
+	  <div class="section-divider">— Next Evergreen Feature —</div>
+
+	  <h2 id="inequality-caste">3. The Enduring Power of Inequality and Caste</h2>
+	  <p>The most enduring stories dissect the mechanisms of power that persist across generations.</p>
+
+	  <h3 id="wealth-disparity-haryana">Wealth Disparity in Haryana</h3>
+	  <p>Haryana has India’s second-highest per capita income — and its worst sex ratio. This paradox reveals a deeper truth: wealth concentrates among dominant castes, while marginalized communities face systemic exclusion. Land records from Rohtak show that 78% of agricultural land is held by just two Jat clans. Meanwhile, Dalit entrepreneurs in Faridabad struggle to secure bank loans despite identical business plans.</p>
+
+	  <h3 id="shadow-of-caste">The Shadow of Caste</h3>
+	  <p>In a three-generation study across Karnal, we tracked two families: one Jat, one Dalit. Both started with similar assets in 1980. By 2025, the Jat family owned 40 acres and a tractor dealership. The Dalit family, despite higher education levels, remained landless laborers. Caste isn’t just social — it’s economic infrastructure.</p>
+
+	  <h3>Why It’s Timeless</h3>
+	  <p>These stories are about the foundational structures of society. While names and dates change, the pattern of exclusion remains.</p>
+
+	  <!-- EVERGREEN TOPIC 4: IMMORTALITY -->
+	  <div class="section-divider">— Next Evergreen Feature —</div>
+
+	  <h2 id="science-immortality">4. The Science of (Near) Immortality</h2>
+	  <p>Billionaires and biologists are racing to extend “healthspan” — but at what cost to society?</p>
+
+	  <h3 id="biologists-billionaires">The Biologists and Billionaires</h3>
+	  <p>In labs funded by tech moguls, senolytics clear “zombie cells” that cause aging. CRISPR edits genes linked to longevity. But these therapies cost millions. In Gurgaon, a startup offers “longevity consultations” for ₹5 lakh/year — accessible only to the elite. Meanwhile, Haryana’s public hospitals struggle to provide basic geriatric care.</p>
+
+	  <h3 id="pension-crisis">The Pension Crisis</h3>
+	  <p>If Haryanvi farmers live to 120, who funds their retirement? India’s pension coverage is below 15%. A 100-year career would require re-skilling every decade — a luxury rural youth can’t afford. “Biological inequality” could become the ultimate caste system.</p>
+
+	  <h3 id="meaning-of-life">The Meaning of Life</h3>
+	  <p>If death is no longer guaranteed, does life lose urgency? In interviews with Haryana’s elderly, many say mortality gives life meaning. “If I live forever,” said 82-year-old Sita Devi of Hisar, “why plant a tree today?”</p>
+
+	  <!-- EVERGREEN TOPIC 5: UNDERSEA CABLES -->
+	  <div class="section-divider">— Final Evergreen Feature —</div>
+
+	  <h2 id="undersea-cables">5. Undersea Cables & Invisible Infrastructure</h2>
+	  <p>The internet is not “in the cloud” — it runs through 1.3 million kilometers of undersea fiber, much of it owned by Google, Meta, and Amazon.</p>
+
+	  <h3 id="invisible-infrastructure">Chapter 1: The Invisible Infrastructure</h3>
+	  <p>The first transatlantic cable (1858) took 16 days to send a message. Today, a cable from Mumbai to Marseille carries 224 terabits per second — enough for 40 million Zoom calls. Laying it cost $500 million and took 3 years. Haryana’s IT hubs in Panchkula depend entirely on this fragile web.</p>
+
+	  <h3 id="soft-underbelly">Chapter 2: The Soft Underbelly</h3>
+	  <p>95% of global data flows through just 200 landing stations. One in Mumbai handles 70% of India’s international traffic. In 2023, a Chinese research vessel was spotted near the Andaman cable route. Naval experts warn: cutting three cables could blackout India’s digital economy for weeks.</p>
+
+	  <h3 id="new-imperialism">Chapter 3: The New Imperialism</h3>
+	  <p>Google’s “Equiano” cable bypasses Europe, linking Portugal directly to South Africa — reshaping African internet sovereignty. In the Indian Ocean, China’s “Digital Silk Road” competes with U.S.-backed projects. Small island nations like Mauritius are pressured to host landing stations — becoming pawns in a new cold war.</p>
+
+	  <h3>Why It Matters for Haryana</h3>
+	  <p>When a farmer in Bhiwani checks crop prices on his phone, that data travels through cables laid by foreign corporations, guarded by foreign navies. Digital sovereignty starts with understanding the wires beneath the waves.</p>
+
+	  <!-- TINY CHAT BUTTON AT VERY BOTTOM -->
+	  <a href="/chat.html" class="chat-small" aria-label="Chat with All Rounder">Chat</a>
+	</article>
+
+<script>
+    // Dynamic Date
+    document.addEventListener('DOMContentLoaded', () => {
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const dateStr = now.toLocaleDateString('en-IN', options);
+      document.querySelectorAll('.published-date').forEach(el => el.textContent = dateStr);
+
+      const words = document.querySelector('.article-body').innerText.split(/\s+/).length;
+      const minutes = Math.ceil(words / 220);
+      document.querySelector('.reading-time').textContent = `${minutes} min read`;
+    });
+
+    // Reading Progress
+    window.addEventListener('scroll', () => {
+      const doc = document.documentElement;
+      const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+      document.getElementById('reading-progress').style.width = `${Math.min(100, scrolled * 100)}%`;
+    });
+
+    // Auto TOC
+    document.addEventListener('DOMContentLoaded', () => {
+      const toc = document.getElementById('toc-list');
+      const headings = document.querySelectorAll('.article-body h2, .article-body h3, h2[id^="ai-"], h2[id^="global-"], h2[id^="inequality-"], h2[id^="science-"], h2[id^="undersea-"]');
+      headings.forEach(h => {
+        if (!h.id) h.id = 'section-' + Math.random().toString(36).substr(2, 9);
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        toc.appendChild(li);
+      });
+    });
+
+    // Lazy Images
+    document.addEventListener('DOMContentLoaded', () => {
+      const imgs = document.querySelectorAll('img.lazy');
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src;
+              img.classList.remove('lazy');
+              obs.unobserve(img);
+            }
+          });
+        });
+        imgs.forEach(img => obs.observe(img));
+      }
+    });
+
+    // Fade-in
+    document.addEventListener('DOMContentLoaded', () => {
+      const els = document.querySelectorAll('.fade-in');
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('appear');
+          });
+        }, { threshold: 0.1 });
+        els.forEach(el => obs.observe(el));
+      } else {
+        els.forEach(el => el.classList.add('appear'));
+      }
+    });
+
+    // Toggle Sources
+    document.getElementById('sources-toggle')?.addEventListener('click', () => {
+      const list = document.getElementById('sources-list');
+      const arrow = document.querySelector('#sources-toggle span:last-child');
+      if (list && arrow) {
+        list.classList.toggle('show');
+        arrow.textContent = list.classList.contains('show') ? '▲' : '▼';
+      }
+    });
+</script>
+  </body>
+</html>
